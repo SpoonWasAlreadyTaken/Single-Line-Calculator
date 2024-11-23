@@ -147,7 +147,7 @@ string RollDice(string input)
 				positionIdentifier++;
 			}
 		}
-		else if (isdigit(input.at(i)))
+		else if (isdigit(input.at(i)) || input.at(i) == '.')
 		{
 
 			store += input.at(i);
