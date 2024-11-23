@@ -1,0 +1,7 @@
+﻿  Rng.cpp
+C:\Users\PREDATOR\source\repos\Rng\Rng\Rng.cpp(202,27): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\source\repos\Rng\Rng\Rng.cpp(207,43): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\source\repos\Rng\Rng\Rng.cpp(226,16): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\source\repos\Rng\Rng\Rng.cpp(284,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\source\repos\Rng\Rng\Rng.cpp(466,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Rng.vcxproj -> C:\Users\PREDATOR\source\repos\Rng\x64\Debug\Rng.exe
