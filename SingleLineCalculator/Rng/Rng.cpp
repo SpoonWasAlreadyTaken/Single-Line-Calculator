@@ -96,6 +96,9 @@ string RollDice(string input)
 	bool hasNumbers = false;
 	bool monoOperator = false;
 
+	double number1;
+	double number2;
+
 	input += " ";
 
 	// creates toProcess
@@ -191,26 +194,51 @@ string RollDice(string input)
 		{
 			string toOutput = "";
 			monoOperator = false;
+
+			if (*operatorOrder.at(i) != 0)
+			{
+				number1 = ToDouble(toProcess.at(*operatorOrder.at(i) - 1));
+			}
+			else
+			{
+				number1 = 0;
+			}
+
+			if (*operatorOrder.at(i) != toProcess.size() - 1)
+			{
+				number2 = ToDouble(toProcess.at(*operatorOrder.at(i) + 1));
+			}
+			else
+			{
+				number2 = 0;
+			}
+
+
 			if (*operatorOrder.at(i) < toProcess.size())
 			{
 				if (toProcess.at(*operatorOrder.at(i)) == "d")
 				{
 					int final = 0;
-					int diceCount = 1;
+					int number1 = 1;
+					number2 = 1;
 					if (*operatorOrder.at(i) > 0)
 					{
-						diceCount = ToDouble(toProcess.at(*operatorOrder.at(i) - 1));
+						number1 = ToInt(toProcess.at(*operatorOrder.at(i) - 1));
+					}
+					if (*operatorOrder.at(i) != toProcess.size() - 1)
+					{
+						number2 = ToInt(toProcess.at(*operatorOrder.at(i) + 1));
 					}
 
-					for (int j = 0; j < diceCount; j++)
+					for (int j = 0; j < number1; j++)
 					{
-						result = NumberGenerator(1, ToDouble(toProcess.at(*operatorOrder.at(i) + 1)));
+						result = NumberGenerator(1, number2);
 
 						if (result == 1)
 						{
 							toOutput += "\u001b[31m" + RemoveTrail(to_string(result)) + "\u001b[37m";
 						}
-						else if (result == ToDouble(toProcess.at(*operatorOrder.at(i) + 1)))
+						else if (result == ToInt(toProcess.at(*operatorOrder.at(i) + 1)))
 						{
 							toOutput += "\u001b[32m" + RemoveTrail(to_string(result)) + "\u001b[37m";
 						}
@@ -218,7 +246,7 @@ string RollDice(string input)
 						{
 							toOutput += RemoveTrail(to_string(result));
 						}
-						if (j != diceCount - 1)
+						if (j != number1 - 1)
 						{
 							toOutput += " ";
 						}
@@ -233,37 +261,37 @@ string RollDice(string input)
 				}
 				else if (toProcess.at(*operatorOrder.at(i)) == "+")
 				{
-					result = ToDouble(toProcess.at(*operatorOrder.at(i) - 1)) + ToDouble(toProcess.at(*operatorOrder.at(i) + 1));
-					toOutput = RemoveTrail(to_string(result)) + " (" + toProcess.at(*operatorOrder.at(i) - 1) + " + " + toProcess.at(*operatorOrder.at(i) + 1) + ")";
+					result = number1 + number2;
+					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + " + " + RemoveTrail(to_string(number2)) + ")";
 					output += toOutput;
 				}
 				else if (toProcess.at(*operatorOrder.at(i)) == "-")
 				{
-					result = ToDouble(toProcess.at(*operatorOrder.at(i) - 1)) - ToDouble(toProcess.at(*operatorOrder.at(i) + 1));
-					toOutput = RemoveTrail(to_string(result)) + " (" + toProcess.at(*operatorOrder.at(i) - 1) + " - " + toProcess.at(*operatorOrder.at(i) + 1) + ")";
+					result = number1 - number2;
+					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + " - " + RemoveTrail(to_string(number2)) + ")";
 					output += toOutput;
 				}
 				else if (toProcess.at(*operatorOrder.at(i)) == "/")
 				{
-					result = ToDouble(toProcess.at(*operatorOrder.at(i) - 1)) / ToDouble(toProcess.at(*operatorOrder.at(i) + 1));
-					toOutput = RemoveTrail(to_string(result)) + " (" + toProcess.at(*operatorOrder.at(i) - 1) + " / " + toProcess.at(*operatorOrder.at(i) + 1) + ")";
+					result = number1 / number2;
+					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + " / " + RemoveTrail(to_string(number2)) + ")";
 					output += toOutput;
 				}
 				else if (toProcess.at(*operatorOrder.at(i)) == "*")
 				{
-					result = ToDouble(toProcess.at(*operatorOrder.at(i) - 1)) * ToDouble(toProcess.at(*operatorOrder.at(i) + 1));
-					toOutput = RemoveTrail(to_string(result)) + " (" + toProcess.at(*operatorOrder.at(i) - 1) + " * " + toProcess.at(*operatorOrder.at(i) + 1) + ")";
+					result = number1 * number2;
+					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + " * " + RemoveTrail(to_string(number2)) + ")";
 					output += toOutput;
 				}
 				else if (toProcess.at(*operatorOrder.at(i)) == "^")
 				{
-					result = ToDouble(toProcess.at(*operatorOrder.at(i) - 1));
+					result = number1;
 
-					if (ToDouble(toProcess.at(*operatorOrder.at(i) + 1)) != 0)
+					if (number2 != 0)
 					{
-						for (int j = 1; j < ToDouble(toProcess.at(*operatorOrder.at(i) + 1)); j++)
+						for (int j = 1; j < number2; j++)
 						{
-							result *= ToDouble(toProcess.at(*operatorOrder.at(i) - 1));
+							result *= number1;
 						}
 					}
 					else
@@ -271,23 +299,24 @@ string RollDice(string input)
 						result = 1;
 					}
 
-					toOutput = RemoveTrail(to_string(result)) + " (" + toProcess.at(*operatorOrder.at(i) - 1) + "!)";
+					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + " ^ " + RemoveTrail(to_string(number2)) + ")";
 					output += toOutput;
 				}
 				else if (toProcess.at(*operatorOrder.at(i)) == "!")
 				{
 					monoOperator = true;
+
 					result = 1;
 
-					if (ToDouble(toProcess.at(*operatorOrder.at(i) - 1)) != 0)
+					if (number1 != 0)
 					{
-						for (int j = ToDouble(toProcess.at(*operatorOrder.at(i) - 1)); j > 0; j--)
+						for (int j = number1; j > 0; j--)
 						{
 							result *= j;
 						}
 					}
 
-					toOutput = RemoveTrail(to_string(result)) + " (" + toProcess.at(*operatorOrder.at(i) - 1) + "!)";
+					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + "!)";
 					output += toOutput;
 				}
 			}	
@@ -295,7 +324,7 @@ string RollDice(string input)
 
 
 			// removes operated parts
-			if (operatorPositions.size() > 1 && toProcess.size() > *operatorOrder.at(i))
+			if (toProcess.size() > *operatorOrder.at(i))
 			{
 				toProcess.at(*operatorOrder.at(i)) = RemoveTrail(to_string(result));
 
@@ -322,9 +351,14 @@ string RollDice(string input)
 				}
 			}
 
-			for (int j = vectorIndex; j < operatorPositions.size(); j++)
+			for (int j = vectorIndex + 1; j < operatorPositions.size(); j++)
 			{
-				operatorPositions.at(j) -= 2;
+				if (*operatorOrder.at(i) == 0 || monoOperator)
+				{
+					operatorPositions.at(j) += 1;
+				}
+
+					operatorPositions.at(j) -= 2;
 			}
 		}
 	}
@@ -339,7 +373,7 @@ string RollDice(string input)
 
 	output = "\x1b[1A" + currentInput + " = " + output + " = " + RemoveTrail(to_string(result)) + "\n";
 
-	return output;
+
 
 	/* debug code :
 	cout << "\u001b[2m";
@@ -355,10 +389,14 @@ string RollDice(string input)
 	{
 		cout << toProcess.at(i) << " ";
 	}
+	cout << "\n";
 	cout << "\u001b[0m";
 	cout << "\n";
 	
 	// debug code end */ 
+
+
+	return output;
 }
 
 void ShowStats()
@@ -436,7 +474,7 @@ int EvaluateOperator(string operation)
 	{
 		value = 1;
 	}
-	else if (operation == "/" || operation == "*")
+	else if (operation == "/" || operation == "*" || operation == "^" || operation == "!")
 	{
 		value = 2;
 	}
