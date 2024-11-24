@@ -104,7 +104,39 @@ string RollDice(string input)
 	// creates toProcess
 	for (int i = 0; i < input.length(); i++)
 	{
-		if (input.at(i) == ' ' || input.at(i) == 'd' || input.at(i) == '+' || input.at(i) == '-' || input.at(i) == '/' || input.at(i) == '*' || input.at(i) == '^' || input.at(i) == '!')
+		if (isdigit(input.at(i)) || input.at(i) == '.' || input.at(i) == '-')
+		{
+			if (input.at(i) != '-')
+			{
+				store += input.at(i);
+				if (isdigit(input.at(i)))
+				{
+					hasNumbers = true;
+				}
+			}
+			else
+			{
+				if (i == 0)
+				{
+					store += input.at(i);
+				}
+				else if (!isdigit(input.at(i - 1)) && isdigit(input.at(i + 1)))
+				{
+					store += input.at(i);
+				}
+				else
+				{
+					toProcess.push_back(store);
+					store = "";
+					positionIdentifier++;
+
+					toProcess.push_back("-");
+					operatorPositions.push_back(positionIdentifier);
+					positionIdentifier++;
+				}
+			}
+		}
+		else if (input.at(i) == ' ' || input.at(i) == 'd' || input.at(i) == '+' || input.at(i) == '/' || input.at(i) == '*' || input.at(i) == '^' || input.at(i) == '!')
 		{
 			if (store != "")
 			{
@@ -122,10 +154,6 @@ string RollDice(string input)
 				else if (input.at(i) == '+')
 				{
 					toProcess.push_back("+");
-				}
-				else if (input.at(i) == '-')
-				{
-					toProcess.push_back("-");
 				}
 				else if (input.at(i) == '/')
 				{
@@ -146,12 +174,6 @@ string RollDice(string input)
 				operatorPositions.push_back(positionIdentifier);
 				positionIdentifier++;
 			}
-		}
-		else if (isdigit(input.at(i)) || input.at(i) == '.')
-		{
-
-			store += input.at(i);
-			hasNumbers = true;
 		}
 	}
 
@@ -219,15 +241,15 @@ string RollDice(string input)
 				if (toProcess.at(*operatorOrder.at(i)) == "d")
 				{
 					int final = 0;
-					int number1 = 1;
-					number2 = 1;
-					if (*operatorOrder.at(i) > 0)
+					
+					if (number1 < 1)
 					{
-						number1 = ToInt(toProcess.at(*operatorOrder.at(i) - 1));
+						number1 = 1;
 					}
-					if (*operatorOrder.at(i) != toProcess.size() - 1)
+
+					if (number2 < 1)
 					{
-						number2 = ToInt(toProcess.at(*operatorOrder.at(i) + 1));
+						number2 = 1;
 					}
 
 					for (int j = 0; j < number1; j++)
