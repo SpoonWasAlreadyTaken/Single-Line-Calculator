@@ -17,10 +17,13 @@ int timesRolled;
 vector<string> diceRolled;
 vector<int> numbersRolled;
 
+bool fullNumbers = false;
+
 
 string currentInput;
 
-
+vector<string> history = {};
+int historyIndex = 0;
 
 char breakOn = 'd';
 
@@ -44,12 +47,96 @@ string RemoveTrail(string number);
 int main()
 {
 start:
-	cout << "\u001b[2m" << "Write an equation to solve\n" << "Currently supports the following operations: +, -, *, /, ^, !\n" << "Can use d as an operator to roll dice\n" << "stats for statistics of all operations performed this session\n" << "clear to clear the console\n" << "help to show this help menu\n" << "\u001b[0m";
+	cout << "\u001b[2m" << "Write an equation to solve\n" << "Currently supports the following operations: +, -, *, /, ^, !\n" << "Can use d as an operator to roll dice\n" << "stats for statistics of all operations performed this session\n" << "clear to clear the console\n" << "help to show this help menu\n" << "round for rounded numbers mode, round again to disable \n" << "\u001b[0m";
 
 runAgain:
 
+	char capture;
+	bool acceptingInput = true;
+
+	currentInput = "";
+	/*
+	while (acceptingInput)
+	{
+		if (_kbhit())
+		{
+			int k = _getch();
+			if (k != 224)
+			{
+				switch (k)
+				{
+				case 10:
+				case 13:
+					acceptingInput = false;
+					cout << "\n";
+					break;
+				case 127:
+				case 8:
+					if (currentInput.size() > 0)
+					{
+						currentInput.erase(currentInput.begin() + currentInput.size() - 1);
+						cout << "\b ";
+					}
+					break;
+				}
+
+				currentInput += (char) k;
+				cout << (char) k;
+			}
+			else
+			{
+				switch (k = _getch())
+				{
+				case 72:
+					historyIndex++;
+					if (historyIndex > history.size())
+					{
+						historyIndex = history.size() - 2;
+					}
+					if (history.size() > 0)
+					{
+						cout << history.at(historyIndex);
+						currentInput = history.at(historyIndex);
+					}
+					break;
+				case 80:
+
+					historyIndex--;
+					if (historyIndex < 0)
+					{
+						historyIndex = 0;
+					}
+					if (history.size() > 0)
+					{
+						cout << history.at(historyIndex);
+						currentInput = history.at(historyIndex);
+					}
+					break;
+				case 10:
+				case 13:
+					acceptingInput = false;
+					cout << "\n";
+					break;
+				case 127:
+				case 8:
+					if (currentInput.size() > 0)
+					{
+						currentInput.erase(currentInput.begin() + currentInput.size() - 1);
+						cout << "\b";
+					}
+					break;
+				}
+			}
+		}
+	}
+	*/
+
+
 	getline(cin, currentInput);
 
+
+	history.push_back(currentInput);
+	historyIndex++;
 
 	if (currentInput == "stats")
 	{
@@ -66,6 +153,19 @@ runAgain:
 	else if (currentInput == "")
 	{
 		cout << "\n";
+	}
+	else if (currentInput == "round")
+	{
+		fullNumbers = !fullNumbers;
+		if (fullNumbers)
+		{
+			cout << "Rounding = True" << "\n";
+		}
+		else
+		{
+			cout << "Rounding = False" << "\n";
+		}
+
 	}
 	else
 	{
@@ -100,6 +200,10 @@ string RollDice(string input)
 	double number2;
 
 	input += " ";
+
+	cout << "input: " << input;
+	cout << "\n";
+
 
 	// creates toProcess
 	for (int i = 0; i < input.length(); i++)
@@ -176,6 +280,14 @@ string RollDice(string input)
 			}
 		}
 	}
+
+	cout << "toProcess(" << toProcess.size() << "): ";
+	for (int i = 0; i < toProcess.size(); i++)
+	{
+		cout << toProcess.at(i) << " ";
+	}
+	cout << "\n";
+	cout << "\n";
 
 	if (operatorPositions.size() == 0)
 	{
@@ -344,13 +456,12 @@ string RollDice(string input)
 			}	
 			output += " ";
 
-
 			// removes operated parts
 			if (toProcess.size() > *operatorOrder.at(i))
 			{
 				toProcess.at(*operatorOrder.at(i)) = RemoveTrail(to_string(result));
 
-				if (toProcess.size() > *operatorOrder.at(i) && !monoOperator)
+				if (toProcess.size() - 1 > *operatorOrder.at(i) && !monoOperator)
 				{
 					toProcess.erase(toProcess.begin() + *operatorOrder.at(i) + 1);
 				}
@@ -525,7 +636,7 @@ string RemoveTrail(string number)
 	{
 		for (int i = number.size() - 1; i > 0; i--)
 		{
-			if (number.at(i) == '0')
+			if (number.at(i) == '0' || fullNumbers)
 			{
 				number.erase(number.begin() + i);
 
