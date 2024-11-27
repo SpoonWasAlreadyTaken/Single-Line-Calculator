@@ -1,9 +1,8 @@
 #include <iostream>
 #include <random>
-#include <algorithm>
 #include <vector>
 #include <string>
-#include <conio.h>
+#include <math.h>
 
 
 using namespace std;
@@ -44,7 +43,7 @@ string RemoveTrail(string number);
 int main()
 {
 start:
-	cout << "\u001b[2m" << "Write an equation to solve\n" << "Currently supports the following operations: +, -, *, /, ^, !\n" << "Can use d as an operator to roll dice\n" << "stats for statistics of all operations performed this session\n" << "clear to clear the console\n" << "help to show this help menu\n" << "round for rounded numbers mode, round again to disable \n" << "\u001b[0m";
+	cout << "\u001b[2m" << "Write an equation to solve\n" << "Currently supports the following operations: +, -, *, /, ^, !\n" << "Can use d as an operator to roll dice\n" << "Can use f as an operator to produce the fibonacci sequence, number before operator is starting point, number after is sequence length\n" << "Can use l as an operator for Logarithm, number before operator is base, number after is value\n" << "stats for statistics of all operations performed this session\n" << "clear to clear the console\n" << "help to show this help menu\n" << "round for rounded numbers mode, round again to disable \n" << "\u001b[0m";
 
 runAgain:
 
@@ -104,7 +103,7 @@ string RollDice(string input)
 	vector<int> operatorPositions = {};
 	int positionIdentifier = 0;
 	string output = "";
-	double result;
+	double result = 0;
 	int repeats = 0;
 	bool hasNumbers = false;
 	bool monoOperator = false;
@@ -113,10 +112,6 @@ string RollDice(string input)
 	double number2;
 
 	input += " ";
-
-	cout << "input: " << input;
-	cout << "\n";
-
 
 	// creates toProcess
 	for (int i = 0; i < input.length(); i++)
@@ -153,7 +148,7 @@ string RollDice(string input)
 				}
 			}
 		}
-		else if (input.at(i) == ' ' || input.at(i) == 'd' || input.at(i) == '+' || input.at(i) == '/' || input.at(i) == '*' || input.at(i) == '^' || input.at(i) == '!')
+		else if (input.at(i) == ' ' || input.at(i) == 'd' || input.at(i) == '+' || input.at(i) == '/' || input.at(i) == '*' || input.at(i) == '^' || input.at(i) == '!' || input.at(i) == 'f' || input.at(i) == 'l')
 		{
 			if (store != "")
 			{
@@ -188,19 +183,19 @@ string RollDice(string input)
 				{
 					toProcess.push_back("!");
 				}
+				else if (input.at(i) == 'f')
+				{
+					toProcess.push_back("f");
+				}
+				else if (input.at(i) == 'l')
+				{
+					toProcess.push_back("l");
+				}
 				operatorPositions.push_back(positionIdentifier);
 				positionIdentifier++;
 			}
 		}
 	}
-
-	cout << "toProcess(" << toProcess.size() << "): ";
-	for (int i = 0; i < toProcess.size(); i++)
-	{
-		cout << toProcess.at(i) << " ";
-	}
-	cout << "\n";
-	cout << "\n";
 
 	if (operatorPositions.size() == 0)
 	{
@@ -366,6 +361,79 @@ string RollDice(string input)
 					toOutput = RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(number1)) + "!)";
 					output += toOutput;
 				}
+				else if (toProcess.at(*operatorOrder.at(i)) == "f")
+				{
+					toOutput = "";
+					if (number1 == 0)
+					{
+						number1 = 1;
+					}
+
+					double final = 0;
+					result = 0;
+
+					for (int j = 0; j < number2; j++)
+					{
+						final += result;
+
+						toOutput += "\u001b[35m" + RemoveTrail(to_string(result)) + "\u001b[37m";
+
+						j++;
+
+						if (j == number2)
+						{
+							break;
+						}
+
+						toOutput += " ";
+
+						final += number1;
+
+						toOutput += "\u001b[36m" + RemoveTrail(to_string(number1)) + "\u001b[37m";
+						if (j != number2 - 1)
+						{
+							toOutput += " ";
+						}
+
+						result += number1;
+						number1 += result;
+					}
+
+					toOutput = RemoveTrail(to_string(final)) + " (" + toOutput + ")";
+					output += toOutput;
+					result = final;
+				}
+				else if (toProcess.at(*operatorOrder.at(i)) == "l")
+				{
+					if (number1 != 0)
+					{
+						if (number1 < 0)
+						{
+							number1 *= -1;
+						}
+					}
+					else
+					{
+						number1 = 2;
+					}
+
+					if (number2 != 0)
+					{
+						if (number2 < 0)
+						{
+							number2 *= -1;
+						}
+					}
+					else
+					{
+						number1 *= 2;
+					}
+
+					result = log(number2) / log(number1);
+
+					output += RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(result)) + ")";
+				}
+
 			}	
 			output += " ";
 
