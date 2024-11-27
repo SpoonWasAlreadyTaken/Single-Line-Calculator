@@ -19,11 +19,8 @@ vector<int> numbersRolled;
 
 bool fullNumbers = false;
 
-
 string currentInput;
 
-vector<string> history = {};
-int historyIndex = 0;
 
 char breakOn = 'd';
 
@@ -51,92 +48,8 @@ start:
 
 runAgain:
 
-	char capture;
-	bool acceptingInput = true;
-
-	currentInput = "";
-	/*
-	while (acceptingInput)
-	{
-		if (_kbhit())
-		{
-			int k = _getch();
-			if (k != 224)
-			{
-				switch (k)
-				{
-				case 10:
-				case 13:
-					acceptingInput = false;
-					cout << "\n";
-					break;
-				case 127:
-				case 8:
-					if (currentInput.size() > 0)
-					{
-						currentInput.erase(currentInput.begin() + currentInput.size() - 1);
-						cout << "\b ";
-					}
-					break;
-				}
-
-				currentInput += (char) k;
-				cout << (char) k;
-			}
-			else
-			{
-				switch (k = _getch())
-				{
-				case 72:
-					historyIndex++;
-					if (historyIndex > history.size())
-					{
-						historyIndex = history.size() - 2;
-					}
-					if (history.size() > 0)
-					{
-						cout << history.at(historyIndex);
-						currentInput = history.at(historyIndex);
-					}
-					break;
-				case 80:
-
-					historyIndex--;
-					if (historyIndex < 0)
-					{
-						historyIndex = 0;
-					}
-					if (history.size() > 0)
-					{
-						cout << history.at(historyIndex);
-						currentInput = history.at(historyIndex);
-					}
-					break;
-				case 10:
-				case 13:
-					acceptingInput = false;
-					cout << "\n";
-					break;
-				case 127:
-				case 8:
-					if (currentInput.size() > 0)
-					{
-						currentInput.erase(currentInput.begin() + currentInput.size() - 1);
-						cout << "\b";
-					}
-					break;
-				}
-			}
-		}
-	}
-	*/
-
-
 	getline(cin, currentInput);
 
-
-	history.push_back(currentInput);
-	historyIndex++;
 
 	if (currentInput == "stats")
 	{
@@ -505,6 +418,7 @@ string RollDice(string input)
 	
 
 	output = "\x1b[1A" + currentInput + " = " + output + " = " + RemoveTrail(to_string(result)) + "\n";
+
 
 
 
