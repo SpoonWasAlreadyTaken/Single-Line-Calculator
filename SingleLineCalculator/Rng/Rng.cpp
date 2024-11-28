@@ -29,11 +29,15 @@ char breakOn = 'd';
 int NumberGenerator(int min, int max);
 vector<string> Parse(string input, char breakOn);
 void ShowStats();
-string RollDice(string input);
+string MathOperations(string input);
 double ToDouble(string convert);
 int ToInt(string convert);
 int EvaluateOperator(string operation);
 string RemoveTrail(string number);
+string Rainbow(string toColor);
+int bracketPairs = 0;
+template <typename T, typename Y>
+int Index(vector<T> toIndex, Y find);
 
 
 
@@ -81,7 +85,7 @@ runAgain:
 	}
 	else
 	{
-		cout << RollDice(currentInput);
+		cout << MathOperations(currentInput);
 	}
 
 
@@ -95,7 +99,7 @@ runAgain:
 }
 
 
-string RollDice(string input)
+string MathOperations(string input)
 {
 	string store = "";
 	vector<string> toProcess = {};
@@ -107,6 +111,8 @@ string RollDice(string input)
 	int repeats = 0;
 	bool hasNumbers = false;
 	bool monoOperator = false;
+	bool openingBracket = false;
+	bracketPairs = 0;
 
 	double number1;
 	double number2;
@@ -148,7 +154,7 @@ string RollDice(string input)
 				}
 			}
 		}
-		else if (input.at(i) == ' ' || input.at(i) == 'd' || input.at(i) == '+' || input.at(i) == '/' || input.at(i) == '*' || input.at(i) == '^' || input.at(i) == '!' || input.at(i) == 'f' || input.at(i) == 'l')
+		else if (input.at(i) == ' ' || input.at(i) == 'd' || input.at(i) == '+' || input.at(i) == '/' || input.at(i) == '*' || input.at(i) == '^' || input.at(i) == '!' || input.at(i) == 'f' || input.at(i) == 'l' || input.at(i) == '(' || input.at(i) == ')')
 		{
 			if (store != "")
 			{
@@ -191,6 +197,22 @@ string RollDice(string input)
 				{
 					toProcess.push_back("l");
 				}
+				else if (input.at(i) == '(')
+				{
+					toProcess.push_back("(");
+
+					openingBracket = true;
+				}
+				else if (input.at(i) == ')')
+				{
+					toProcess.push_back(")");
+
+					if (openingBracket)
+					{
+						bracketPairs++;
+						openingBracket = false;
+					}
+				}
 				operatorPositions.push_back(positionIdentifier);
 				positionIdentifier++;
 			}
@@ -228,6 +250,54 @@ string RollDice(string input)
 			swap(operatorOrder.at(i), operatorOrder.at(j));
 		}
 	}
+/*
+	cout << "operatorPositions: ";
+	for (int i = 0; i < operatorOrder.size(); i++)
+	{
+		cout << *operatorOrder.at(i) << " ";
+	}
+	cout << "\n";
+	cout << "toProcess(" << toProcess.size() << "): ";
+	for (int i = 0; i < toProcess.size(); i++)
+	{
+		cout << toProcess.at(i) << " ";
+	}
+	cout << "\n\n";
+
+
+	// removes brackets ):
+	for (int i = 0; i < toProcess.size(); i++)
+	{
+		if (toProcess.at(i) == "(" || toProcess.at(i) == ")")
+		{
+			int index = Index(operatorPositions, i);
+			toProcess.erase(toProcess.begin() + i);
+			for (int j = index + 1; j < operatorOrder.size(); j++)
+			{
+				operatorPositions.at(j)--;
+			}
+
+			operatorPositions.erase(operatorPositions.begin() + index);
+			operatorOrder.erase(operatorOrder.begin() + index);	
+		}
+	}
+
+
+	cout << "I made it (:\n\n";
+	cout << "operatorPositions: ";
+	for (int i = 0; i < operatorOrder.size(); i++)
+	{
+		cout << *operatorOrder.at(i) << " ";
+	}
+	cout << "\n";
+	cout << "toProcess(" << toProcess.size() << "): ";
+	for (int i = 0; i < toProcess.size(); i++)
+	{
+		cout << toProcess.at(i) << " ";
+	}
+	cout << "\n\n";
+	*/
+
 
 	// performs operations
 	if (operatorPositions.size() > 0)
@@ -455,17 +525,7 @@ string RollDice(string input)
 
 			// reduce operatorPositions when necessary
 
-			int vectorIndex;
-			for (int j = 0; j < operatorPositions.size(); j++)
-			{
-				if (operatorPositions.at(j) == *operatorOrder.at(i))
-				{
-					vectorIndex = j;
-					break;
-				}
-			}
-
-			for (int j = vectorIndex + 1; j < operatorPositions.size(); j++)
+			for (int j = Index(operatorPositions, *operatorOrder.at(i)) + 1; j < operatorPositions.size(); j++)
 			{
 				if (*operatorOrder.at(i) == 0 || monoOperator)
 				{
@@ -504,7 +564,7 @@ string RollDice(string input)
 	{
 		cout << toProcess.at(i) << " ";
 	}
-	cout << "\n";
+	cout << "\n\n";
 	cout << "\u001b[0m";
 	cout << "\n";
 	
@@ -638,4 +698,37 @@ string RemoveTrail(string number)
 	return number;
 }
 
+string Rainbow(string toColor)
+{
+	string output = "";
+	string colors[] = { "\u001b[31m", "\u001b[32m", "\u001b[33m", "\u001b[34m", "\u001b[35m", "\u001b[36m"};
+	for (int i = 0; i < toColor.size(); i++)
+	{
+		if (toColor.at(i) != ' ')
+		{
+			output += colors[(NumberGenerator(0, 5))] + " \b" + toColor.at(i) + "\u001b[37m";
+		}
+		else
+		{
+			output += " ";
+		}
+	}
+	return output;
+}
 
+template <typename T, typename Y>
+int Index(vector<T> toIndex, Y find)
+{
+	int index = 0;
+
+	for (int i = 0; i < toIndex.size(); i++)
+	{
+		if (toIndex.at(i) == find)
+		{
+			index = i;
+			break;
+		}
+	}
+
+	return index;
+}

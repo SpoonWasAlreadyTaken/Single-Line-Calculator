@@ -1,6 +1,6 @@
 ﻿  Rng.cpp
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(277,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(296,16): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(355,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(619,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(347,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(366,16): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(425,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(679,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Rng.vcxproj -> C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\x64\Debug\Rng.exe
