@@ -223,7 +223,7 @@ string MathOperations(string input)
 	{
 		output = "\x1b[1A";
 		output += "\u001b[31m";
-		output += currentInput + " no operators found\n" + "\u001b[37m";
+		output += currentInput + " ERROR: no operators found\n" + "\u001b[37m";
 		return output;
 	}
 
@@ -231,7 +231,7 @@ string MathOperations(string input)
 	{
 		output = "\x1b[1A";
 		output += "\u001b[31m";
-		output += currentInput + " no numbers found\n" + "\u001b[37m";
+		output += currentInput + " ERROR: No numbers found\n" + "\u001b[37m";
 		return output;
 	}
 
@@ -241,63 +241,89 @@ string MathOperations(string input)
 		operatorOrder.push_back(&operatorPositions.at(i));
 	}
 
+
+	// evaluates the weight of each operator.
+
+	vector<int> evaluations = {};
+	int evaluationBonus = 0;
+	for (int i = 0; i < operatorOrder.size(); i++)
+	{
+		if (bracketPairs > 0)
+		{
+			if (toProcess.at(*operatorOrder.at(i)) == "(")
+			{
+				evaluationBonus = 4;
+			}
+			if (toProcess.at(*operatorOrder.at(i)) == ")")
+			{
+				evaluationBonus = 0;
+			}
+		}
+		
+		if (toProcess.at(*operatorOrder.at(i)) != "(" && toProcess.at(*operatorOrder.at(i)) != ")")
+		{
+			evaluations.push_back(EvaluateOperator(toProcess.at(*operatorOrder.at(i))) + evaluationBonus);
+		}
+		
+	}
+
+	// remove brackets
+	
+
+	for (int i = 0; i < operatorOrder.size(); i++)
+	{
+		if (toProcess.at(operatorPositions.at(i)) == "(" || toProcess.at(operatorPositions.at(i)) == ")")
+		{
+			int storedPosition = operatorPositions.at(i);
+
+			for (int j = i + 1; j < operatorPositions.size(); j++)
+			{
+				operatorPositions.at(j)--;
+			}
+			for (int j = 0; j < operatorPositions.size(); j++)
+			{
+				cout << "OperatorPositions: " << operatorPositions.at(j) << "\n\n";
+			}
+			for (int j = 0; j < operatorOrder.size(); j++)
+			{
+				cout << "OperatorOrder: " << *operatorOrder.at(j) << "\n\n";
+			}
+			cout << "Iterator: " << i << " operatorPositions size: " << operatorPositions.size() << "\n\n";
+
+			operatorOrder.erase(operatorOrder.begin() + i);
+
+			cout << "I made it ):\n\n";
+			toProcess.erase(toProcess.begin() + storedPosition);
+		}
+	}
+
 	// sorts operatorOrder in order of operations
 	for (int i = 0; i < operatorOrder.size() - 1; i++)
 	{
 		for (int j = i + 1; j < operatorOrder.size(); j++)
-		if (EvaluateOperator(toProcess.at(*operatorOrder.at(i))) < EvaluateOperator(toProcess.at(*operatorOrder.at(j))))
 		{
-			swap(operatorOrder.at(i), operatorOrder.at(j));
-		}
-	}
-/*
-	cout << "operatorPositions: ";
-	for (int i = 0; i < operatorOrder.size(); i++)
-	{
-		cout << *operatorOrder.at(i) << " ";
-	}
-	cout << "\n";
-	cout << "toProcess(" << toProcess.size() << "): ";
-	for (int i = 0; i < toProcess.size(); i++)
-	{
-		cout << toProcess.at(i) << " ";
-	}
-	cout << "\n\n";
-
-
-	// removes brackets ):
-	for (int i = 0; i < toProcess.size(); i++)
-	{
-		if (toProcess.at(i) == "(" || toProcess.at(i) == ")")
-		{
-			int index = Index(operatorPositions, i);
-			toProcess.erase(toProcess.begin() + i);
-			for (int j = index + 1; j < operatorOrder.size(); j++)
+			if (evaluations.at(i) < evaluations.at(j))
 			{
-				operatorPositions.at(j)--;
+				swap(operatorOrder.at(i), operatorOrder.at(j));
 			}
-
-			operatorPositions.erase(operatorPositions.begin() + index);
-			operatorOrder.erase(operatorOrder.begin() + index);	
 		}
 	}
 
-
-	cout << "I made it (:\n\n";
+	//debug Code
 	cout << "operatorPositions: ";
 	for (int i = 0; i < operatorOrder.size(); i++)
 	{
 		cout << *operatorOrder.at(i) << " ";
 	}
-	cout << "\n";
+	cout << "\n\n";
 	cout << "toProcess(" << toProcess.size() << "): ";
 	for (int i = 0; i < toProcess.size(); i++)
 	{
 		cout << toProcess.at(i) << " ";
 	}
 	cout << "\n\n";
-	*/
-
+	//debug Code
+		
 
 	// performs operations
 	if (operatorPositions.size() > 0)
@@ -306,7 +332,15 @@ string MathOperations(string input)
 		{
 			string toOutput = "";
 			monoOperator = false;
-
+		
+			if (*operatorOrder.at(i) > toProcess.size())
+			{
+				output = "\x1b[1A";
+				output += "\u001b[31m";
+				output += currentInput + " ERROR: Trying to access out of Bounds Operator\n" + "\u001b[37m";
+				return output;
+			}
+			
 			if (*operatorOrder.at(i) != 0)
 			{
 				number1 = ToDouble(toProcess.at(*operatorOrder.at(i) - 1));
@@ -469,6 +503,7 @@ string MathOperations(string input)
 						number1 += result;
 					}
 
+
 					toOutput = RemoveTrail(to_string(final)) + " (" + toOutput + ")";
 					output += toOutput;
 					result = final;
@@ -503,10 +538,17 @@ string MathOperations(string input)
 
 					output += RemoveTrail(to_string(result)) + " (" + RemoveTrail(to_string(result)) + ")";
 				}
+				else
+				{
+					output = "\x1b[1A";
+					output += "\u001b[31m";
+					output += currentInput + " ERROR: No Operator at specified Position\n" + "\u001b[37m";
+					return output;
+				}
 
 			}	
 			output += " ";
-
+			
 			// removes operated parts
 			if (toProcess.size() > *operatorOrder.at(i))
 			{
@@ -522,7 +564,7 @@ string MathOperations(string input)
 					toProcess.erase(toProcess.begin() + *operatorOrder.at(i) - 1);
 				}
 			}
-
+			
 			// reduce operatorPositions when necessary
 
 			for (int j = Index(operatorPositions, *operatorOrder.at(i)) + 1; j < operatorPositions.size(); j++)
@@ -540,7 +582,7 @@ string MathOperations(string input)
 	{
 		output = "\x1b[1A";
 		output += "\u001b[31m";
-		output += currentInput + " isn't an equation\n" + "\u001b[37m";
+		output += currentInput + " ERROR: This equation isn't valid\n" + "\u001b[37m";
 		return output;
 	}
 	
