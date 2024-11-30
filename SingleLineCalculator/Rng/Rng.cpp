@@ -235,42 +235,34 @@ string MathOperations(string input)
 		return output;
 	}
 
-	// assigns operationPositions to operationOrder
-	for (int i = 0; i < operatorPositions.size(); i++)
-	{
-		operatorOrder.push_back(&operatorPositions.at(i));
-	}
-
 
 	// evaluates the weight of each operator.
 
 	vector<int> evaluations = {};
 	int evaluationBonus = 0;
-	for (int i = 0; i < operatorOrder.size(); i++)
+	for (int i = 0; i < operatorPositions.size(); i++)
 	{
 		if (bracketPairs > 0)
 		{
-			if (toProcess.at(*operatorOrder.at(i)) == "(")
+			if (toProcess.at(operatorPositions.at(i)) == "(")
 			{
 				evaluationBonus = 4;
 			}
-			if (toProcess.at(*operatorOrder.at(i)) == ")")
+			if (toProcess.at(operatorPositions.at(i)) == ")")
 			{
 				evaluationBonus = 0;
 			}
 		}
 		
-		if (toProcess.at(*operatorOrder.at(i)) != "(" && toProcess.at(*operatorOrder.at(i)) != ")")
+		if (toProcess.at(operatorPositions.at(i)) != "(" && toProcess.at(operatorPositions.at(i)) != ")")
 		{
-			evaluations.push_back(EvaluateOperator(toProcess.at(*operatorOrder.at(i))) + evaluationBonus);
+			evaluations.push_back(EvaluateOperator(toProcess.at(operatorPositions.at(i))) + evaluationBonus);
 		}
 		
 	}
 
 	// remove brackets
-	
-
-	for (int i = 0; i < operatorOrder.size(); i++)
+	for (int i = 0; i < operatorPositions.size(); i++)
 	{
 		if (toProcess.at(operatorPositions.at(i)) == "(" || toProcess.at(operatorPositions.at(i)) == ")")
 		{
@@ -280,21 +272,19 @@ string MathOperations(string input)
 			{
 				operatorPositions.at(j)--;
 			}
-			for (int j = 0; j < operatorPositions.size(); j++)
-			{
-				cout << "OperatorPositions: " << operatorPositions.at(j) << "\n\n";
-			}
-			for (int j = 0; j < operatorOrder.size(); j++)
-			{
-				cout << "OperatorOrder: " << *operatorOrder.at(j) << "\n\n";
-			}
-			cout << "Iterator: " << i << " operatorPositions size: " << operatorPositions.size() << "\n\n";
 
-			operatorOrder.erase(operatorOrder.begin() + i);
+			operatorPositions.erase(operatorPositions.begin() + i);
 
 			cout << "I made it ):\n\n";
 			toProcess.erase(toProcess.begin() + storedPosition);
+			i--;
 		}
+	}
+
+	// assigns operationPositions to operationOrder
+	for (int i = 0; i < operatorPositions.size(); i++)
+	{
+		operatorOrder.push_back(&operatorPositions.at(i));
 	}
 
 	// sorts operatorOrder in order of operations
@@ -691,7 +681,7 @@ int EvaluateOperator(string operation)
 	{
 		value = 1;
 	}
-	else if (operation == "/" || operation == "*" || operation == "^" || operation == "!")
+	else if (operation == "/" || operation == "*" || operation == "!")
 	{
 		value = 2;
 	}
