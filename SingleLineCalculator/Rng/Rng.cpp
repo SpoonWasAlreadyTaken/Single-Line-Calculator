@@ -199,6 +199,23 @@ string MathOperations(string input)
 				}
 				else if (input.at(i) == '(')
 				{
+					if (i != 0)
+					{
+						if (isdigit(input.at(i - 1)))
+						{
+							for (int j = i; j < input.size(); j++)
+							{
+								if (input.at(j) == ')')
+								{
+									toProcess.push_back("*");
+									operatorPositions.push_back(positionIdentifier);
+									positionIdentifier++;
+									break;
+								}
+							}
+						}
+					}
+
 					toProcess.push_back("(");
 
 					openingBracket = true;
@@ -206,6 +223,13 @@ string MathOperations(string input)
 				else if (input.at(i) == ')')
 				{
 					toProcess.push_back(")");
+
+					if (openingBracket && isdigit(input.at(i + 1)))
+					{
+						toProcess.push_back("*");
+						operatorPositions.push_back(positionIdentifier);
+						positionIdentifier++;
+					}
 
 					if (openingBracket)
 					{
