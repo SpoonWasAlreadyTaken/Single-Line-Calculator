@@ -201,7 +201,7 @@ string MathOperations(string input)
 				{
 					if (i != 0)
 					{
-						if (isdigit(input.at(i - 1)))
+						if (isdigit(input.at(i - 1)) || input.at(i - 1) == ')')
 						{
 							for (int j = i; j < input.size(); j++)
 							{
@@ -322,21 +322,6 @@ string MathOperations(string input)
 			}
 		}
 	}
-
-	//debug Code
-	cout << "operatorPositions: ";
-	for (int i = 0; i < operatorOrder.size(); i++)
-	{
-		cout << *operatorOrder.at(i) << " ";
-	}
-	cout << "\n\n";
-	cout << "toProcess(" << toProcess.size() << "): ";
-	for (int i = 0; i < toProcess.size(); i++)
-	{
-		cout << toProcess.at(i) << " ";
-	}
-	cout << "\n\n";
-	//debug Code
 		
 
 	// performs operations

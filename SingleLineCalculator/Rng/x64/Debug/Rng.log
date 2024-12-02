@@ -1,6 +1,6 @@
 ﻿  Rng.cpp
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(395,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(414,16): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(473,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(735,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Rng.vcxproj -> C:\Users\PREDATOR\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\x64\Debug\Rng.exe
+C:\Users\laser\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(380,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\laser\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(399,16): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+C:\Users\laser\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(458,18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\laser\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\Rng\Rng.cpp(720,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Rng.vcxproj -> C:\Users\laser\Documents\GitHub\Single-Line-Calculator\SingleLineCalculator\x64\Debug\Rng.exe
