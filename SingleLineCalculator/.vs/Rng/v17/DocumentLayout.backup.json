@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\PREDATOR\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\",
+  "WorkspaceRootPath": "C:\\Users\\Spoon\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2FB3D85E-0E99-4BB5-A60D-9D36444821A2}|Rng\\Rng.vcxproj|C:\\Users\\PREDATOR\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\Rng\\Rng.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{2FB3D85E-0E99-4BB5-A60D-9D36444821A2}|Rng\\Rng.vcxproj|C:\\Users\\Spoon\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\Rng\\Rng.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{2FB3D85E-0E99-4BB5-A60D-9D36444821A2}|Rng\\Rng.vcxproj|solutionrelative:Rng\\Rng.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,9 +20,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Rng.cpp",
-              "DocumentMoniker": "C:\\Users\\PREDATOR\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\Rng\\Rng.cpp",
+              "DocumentMoniker": "C:\\Users\\Spoon\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\Rng\\Rng.cpp",
               "RelativeDocumentMoniker": "Rng\\Rng.cpp",
-              "ToolTip": "C:\\Users\\PREDATOR\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\Rng\\Rng.cpp",
+              "ToolTip": "C:\\Users\\Spoon\\Documents\\GitHub\\Single-Line-Calculator\\SingleLineCalculator\\Rng\\Rng.cpp",
               "RelativeToolTip": "Rng\\Rng.cpp",
               "ViewState": "AgIAAAsAAAAAAAAAAAAjwDYBAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
